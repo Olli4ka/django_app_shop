@@ -10,11 +10,11 @@ class User(models.Model):
 
 
 class ShoppingCart(models.Model):
-    # One-to-One: один кошик → один користувач
-    # related_name='cart' → user.cart (для зворотного зв'язку)
+    # One-to-One: one cart → one user
+    # related_name='cart' → user.cart (for feedback)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
-    # Many-to-Many: кошик містить багато товарів
-    # related_name='carts' → product.carts (для зворотного зв'язку)
+    # Many-to-Many: cart contains many products
+    # related_name='carts' → product.carts (for feedback)
     products = models.ManyToManyField('Product', blank=True, related_name='carts')
 
     def __str__(self):
@@ -30,11 +30,11 @@ class Product(models.Model):
 
 
 class Order(models.Model):
-    # Many-to-One: багато замовлень → один користувач
-    # related_name='orders' → user.orders (для зворотного зв'язку)
+    # Many-to-One: many orders → one user
+    # related_name='orders' → user.orders (for feedback)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
-    # Many-to-Many: одне замовлення містить багато товарів
-    # related_name='orders' → product.orders (для зворотного зв'язку)
+    # Many-to-Many: one order contains many products
+    # related_name='orders' → product.orders (for feedback)
     products = models.ManyToManyField(Product, blank=True, related_name='orders')
     order_date = models.DateTimeField(auto_now_add=True)
 
